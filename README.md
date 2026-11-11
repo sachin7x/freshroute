@@ -28,6 +28,13 @@
 FreshRoute adapts the successful American laundry subscription model (Rinse.com) to Indian market dynamics using quick-commerce operational efficiency:
 
 - **Doorstep Pickup & Delivery:** Uniformed valets operate scheduled 7 PM – 10 PM pickup windows 7 days a week.
+- **Rinse 3-Color Bag System:**
+  - ⬛ **Black Bag (Wash & Fold):** Everyday tees, jeans, and sheets. Automated separation of lights & darks with hypoallergenic wash.
+  - ⬜ **White Bag (Dry Clean & Press):** Suits, blazers, kurtas, and silks delivered pressed on custom hangers with protective covers.
+  - 🟦 **Teal Bag (Delicate Hang Dry):** Gym activewear, lululemon, and fine woolens washed cold and dried with zero tumble heat.
+- **"Fill the Bag" Flat Rate:** Zero weighing friction with flat ₹349 Flex Bag (5 kg) and ₹599 Family Bag (10 kg) — stuff it full as it zips!
+- **FreshDrop™ Concierge:** Unattended pickup and delivery adapted for Indian gated societies (Gatekeeper/Security guard or Doorstep safety hook) with instant WhatsApp photo proof.
+- **Blinkit-Style Live Valet Tracking:** Live SVG vector map with real-time electric scooter animation (🛵), pulsing radar ring, dynamic ETA pill ("Arriving in 8 mins"), live telemetry speed (26 km/h), and 1-tap WhatsApp/direct call to the valet.
 - **Physical QR Bag Tags:** Reusable canvas laundry bags tagged with tamper-proof QR codes (`FR123456`) scanned at pickup, hub intake, wash cycles, and delivery.
 - **Hybrid Hub Fulfillment:** Decentralized dark fulfillment hubs (5 km radius) handle high-throughput wash & fold; specialized partner facilities handle delicate dry cleaning and shoe care.
 - **Financial Precision:** All money values stored in **integer paise** (`pricePaise: 4900` = ₹49.00) with zero floating-point imprecision.

@@ -13,6 +13,20 @@ export default function SchedulePage() {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Rinse.com 3-Bag System Selection
+  const [bags, setBags] = useState({
+    black: true, // Wash & Fold
+    white: true, // Dry Clean & Press
+    teal: false, // Delicate Hang Dry
+  });
+
+  // FreshDrop Unattended Concierge Delivery
+  const [freshDrop, setFreshDrop] = useState({
+    enabled: true,
+    location: 'gatekeeper', // 'gatekeeper' | 'doorstep' | 'locker'
+    instructions: 'Leave with Society Gatekeeper / Tower A Security Guard',
+  });
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('freshroute_basket');
@@ -27,8 +41,8 @@ export default function SchedulePage() {
       }
       // Fallback default basket matching Panel 4
       setBasket([
-        { id: 'wf', title: 'Wash & Fold', unit: 'kg', qty: 5, pricePaise: 4900 },
-        { id: 'ir', title: 'Steam Ironing', unit: 'item', qty: 3, pricePaise: 2900 },
+        { id: 'wf', title: 'Wash & Fold (Black Bag)', unit: 'kg', qty: 5, pricePaise: 4900 },
+        { id: 'ir', title: 'Dry Clean & Press (White Bag)', unit: 'item', qty: 3, pricePaise: 9900 },
       ]);
     }
   }, []);
@@ -62,6 +76,8 @@ export default function SchedulePage() {
           pickupDate: selectedDate,
           address: address,
           totalPaise: totalPaise,
+          bags: bags,
+          freshDrop: freshDrop,
         }),
       });
     } catch (err) {
@@ -95,7 +111,7 @@ export default function SchedulePage() {
       <main style={{ maxWidth: '540px', margin: '20px auto', padding: '0 16px' }}>
         {/* Stepper */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
-          {['Address', 'Service', 'Schedule', 'Pay'].map((st, i) => (
+          {['Address', '3-Bag System', 'Schedule', 'Pay'].map((st, i) => (
             <div key={st} style={{ flex: 1, textAlign: 'center' }}>
               <div style={{
                 background: orderConfirmed ? '#0d3826' : (i <= 2 ? '#0d3826' : '#e2e8f0'),
@@ -123,11 +139,47 @@ export default function SchedulePage() {
               <div style={{ fontSize: '14px', color: '#64748b' }}>Order ID: <b>#{confirmedOrderId}</b></div>
             </div>
 
-            {/* Bag Tag Card */}
-            <div style={{ background: '#fdfbf7', border: '1px dashed #d1c7b7', borderRadius: '12px', padding: '16px', marginBottom: '20px', textAlign: 'center' }}>
-              <div style={{ fontSize: '11px', fontWeight: '800', color: '#527867' }}>TAMPER-PROOF QR BAG ASSIGNED</div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#0d3826', margin: '4px 0', letterSpacing: '1px' }}>{confirmedOrderId}</div>
-              <div style={{ fontSize: '11px', color: '#64748b' }}>Valet arrives with eco-friendly canvas bag</div>
+            {/* Rinse 3-Bag Manifest Tag Card */}
+            <div style={{ background: '#f8fafc', border: '1.5px solid #cbd5e1', borderRadius: '14px', padding: '16px', marginBottom: '20px' }}>
+              <div style={{ fontSize: '11px', fontWeight: '800', color: '#0d3826', textTransform: 'uppercase', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>🏷️ Assigned QR Smart Bags</span>
+                <span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '10px', fontSize: '10px' }}>TAMPER-PROOF</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
+                {bags.black && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '14px' }}>⬛</span>
+                      <span style={{ fontWeight: '700' }}>Black Bag (Wash & Fold)</span>
+                    </div>
+                    <span style={{ fontFamily: 'monospace', fontWeight: '700', color: '#0d3826' }}>#FR-B{confirmedOrderId.slice(-4)}</span>
+                  </div>
+                )}
+                {bags.white && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '14px' }}>⬜</span>
+                      <span style={{ fontWeight: '700' }}>White Bag (Dry Clean & Hangers)</span>
+                    </div>
+                    <span style={{ fontFamily: 'monospace', fontWeight: '700', color: '#0d3826' }}>#FR-W{confirmedOrderId.slice(-4)}</span>
+                  </div>
+                )}
+                {bags.teal && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '14px' }}>🟦</span>
+                      <span style={{ fontWeight: '700' }}>Teal Bag (Delicate Hang Dry)</span>
+                    </div>
+                    <span style={{ fontFamily: 'monospace', fontWeight: '700', color: '#0d3826' }}>#FR-T{confirmedOrderId.slice(-4)}</span>
+                  </div>
+                )}
+              </div>
+              {freshDrop.enabled && (
+                <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px dashed #cbd5e1', fontSize: '11px', color: '#475569', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span>🛎️</span>
+                  <span><b>FreshDrop Concierge Active:</b> {freshDrop.instructions}</span>
+                </div>
+              )}
             </div>
 
             {/* Order Total & Breakdown toggle */}
@@ -201,7 +253,7 @@ export default function SchedulePage() {
                 marginBottom: '12px'
               }}
             >
-              Pay ₹{(totalPaise / 100).toFixed(0)} & Track Valet →
+              Pay ₹{(totalPaise / 100).toFixed(0)} & Track Valet Live 🛵 →
             </a>
             <div style={{ textAlign: 'center', fontSize: '11px', color: '#94a3b8' }}>
               🔒 Secure payment powered by Razorpay
@@ -233,6 +285,128 @@ export default function SchedulePage() {
               ) : (
                 <div style={{ fontSize: '14px', color: '#334155', lineHeight: 1.4 }}>
                   {address}
+                </div>
+              )}
+            </div>
+
+            {/* Rinse 3-Color Bag System Selector */}
+            <div style={{ background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', padding: '18px 20px', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a' }}>
+                  🧺 3-Color Bag System (Rinse Inspired)
+                </div>
+                <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: '700' }}>Valet brings bags</span>
+              </div>
+              <p style={{ fontSize: '11px', color: '#64748b', marginBottom: '14px' }}>
+                Select which bags you plan to hand over. Never worry about mixing lights and dry cleanables.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {/* Black Bag */}
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', border: bags.black ? '2px solid #0d3826' : '1px solid #e2e8f0', borderRadius: '12px', background: bags.black ? '#f8fafc' : '#fff', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={bags.black}
+                    onChange={(e) => setBags({ ...bags, black: e.target.checked })}
+                    style={{ marginTop: '3px' }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a' }}>⬛ Black Bag &bull; Wash & Fold</span>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#166534', background: '#dcfce7', padding: '2px 6px', borderRadius: '6px' }}>₹49/kg</span>
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+                      Everyday wear, socks, tees. Lights & darks sorted automatically in hypoallergenic detergent.
+                    </div>
+                  </div>
+                </label>
+
+                {/* White Bag */}
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', border: bags.white ? '2px solid #0d3826' : '1px solid #e2e8f0', borderRadius: '12px', background: bags.white ? '#f8fafc' : '#fff', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={bags.white}
+                    onChange={(e) => setBags({ ...bags, white: e.target.checked })}
+                    style={{ marginTop: '3px' }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a' }}>⬜ White Bag &bull; Dry Clean & Press</span>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#0d3826', background: '#e2e8f0', padding: '2px 6px', borderRadius: '6px' }}>On Hangers</span>
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+                      Suits, festive dresses, blazers, delicate silks. Handed back hung in protective garment covers.
+                    </div>
+                  </div>
+                </label>
+
+                {/* Teal Bag */}
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', border: bags.teal ? '2px solid #0d3826' : '1px solid #e2e8f0', borderRadius: '12px', background: bags.teal ? '#f0fdfa' : '#fff', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={bags.teal}
+                    onChange={(e) => setBags({ ...bags, teal: e.target.checked })}
+                    style={{ marginTop: '3px' }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a' }}>🟦 Teal Bag &bull; Delicate Hang Dry</span>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#0f766e', background: '#ccfbf1', padding: '2px 6px', borderRadius: '6px' }}>Zero Heat</span>
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+                      Gym activewear, lululemon, swimsuits, fine wools. Cold-washed & ambient air-dried.
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {/* FreshDrop™ Unattended Concierge Delivery */}
+            <div style={{ background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', padding: '18px 20px', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={freshDrop.enabled}
+                    onChange={(e) => setFreshDrop({ ...freshDrop, enabled: e.target.checked })}
+                  />
+                  <span style={{ fontSize: '13px', fontWeight: '800', color: '#0d3826' }}>
+                    🛎️ Enable FreshDrop™ (Unattended Handover)
+                  </span>
+                </label>
+                <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: '6px', fontWeight: '700' }}>
+                  RINSE DROP FOR INDIA
+                </span>
+              </div>
+              <p style={{ fontSize: '11px', color: '#64748b', marginBottom: '10px' }}>
+                Not home? No problem. Valet picks up or leaves cleaned bags securely and sends you a photo confirmation on WhatsApp.
+              </p>
+
+              {freshDrop.enabled && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+                  <select
+                    value={freshDrop.location}
+                    onChange={(e) => {
+                      const loc = e.target.value;
+                      let defaultInst = 'Leave with Society Gatekeeper / Tower A Security Guard';
+                      if (loc === 'doorstep') defaultInst = 'Leave on doorstep hanger hook / inside safety door';
+                      if (loc === 'reception') defaultInst = 'Leave with building front desk / clubhouse concierge';
+                      setFreshDrop({ ...freshDrop, location: loc, instructions: defaultInst });
+                    }}
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: '#f8fafc', fontWeight: '600' }}
+                  >
+                    <option value="gatekeeper">Society Gatekeeper / Security Guard</option>
+                    <option value="doorstep">Doorstep Hanger Hook / Safety Door</option>
+                    <option value="reception">Clubhouse Concierge / Office Reception</option>
+                  </select>
+
+                  <input
+                    type="text"
+                    value={freshDrop.instructions}
+                    onChange={(e) => setFreshDrop({ ...freshDrop, instructions: e.target.value })}
+                    placeholder="Specific instructions for valet..."
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px' }}
+                  />
                 </div>
               )}
             </div>

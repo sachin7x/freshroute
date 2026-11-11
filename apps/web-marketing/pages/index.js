@@ -8,39 +8,57 @@ export default function MarketingPage() {
   const services = [
     {
       id: 'wf',
-      title: 'Wash & Fold',
-      tagline: 'Everyday clothes, professionally cleaned',
+      title: 'Wash & Fold (Black Bag)',
+      tagline: 'Everyday clothes, auto-sorted lights & darks',
       price: 'From ₹49/kg',
-      icon: '🧺',
-      badge: 'Most Popular',
-      features: ['Premium detergent', 'Hygienic cleaning', 'Fresh fragrance', 'Folded & packed', '48-72 hours delivery']
+      icon: '⬛',
+      badge: 'Rinse Black Bag',
+      features: ['Hypoallergenic wash', 'Lights & darks separated', 'Tumble dry low', 'Folded & packaged in eco-pack', '48h standard delivery']
     },
     {
       id: 'dc',
-      title: 'Dry Cleaning',
-      tagline: 'Delicate fabrics, expertly treated',
+      title: 'Dry Clean & Press (White Bag)',
+      tagline: 'Formals, silks & suits delivered on hangers',
       price: 'From ₹99/item',
-      icon: '🧥',
-      badge: 'Premium Care',
-      features: ['Gentle solvent care', 'Stain spot removal', 'Protective covers', 'Hanger packing', 'Formals & silks']
+      icon: '⬜',
+      badge: 'Rinse White Bag',
+      features: ['Gentle solvent care', 'Stain spot treatment', 'Protective garment covers', 'Delivered on custom hangers', 'Formals & silks']
+    },
+    {
+      id: 'hd',
+      title: 'Delicate Hang Dry (Teal Bag)',
+      tagline: 'Zero heat ambient air drying for gym & wool',
+      price: 'From ₹79/item',
+      icon: '🟦',
+      badge: 'Rinse Teal Bag',
+      features: ['Zero tumble heat', 'Ambient cold air dried', 'Safe for activewear & elastics', 'Swimsuits & delicate wools', 'Anti-shrink guarantee']
+    },
+    {
+      id: 'ftb',
+      title: 'Fill-The-Bag (Flat Rate)',
+      tagline: 'Stuff it as full as it zips — no per-kg weighing!',
+      price: 'Flat ₹349 / bag',
+      icon: '🎒',
+      badge: 'Best Value',
+      features: ['Zero weighing friction', 'Flex Bag (up to 5 kg) ₹349', 'Family Bag (up to 10 kg) ₹599', 'Complete wash, dry & fold', '24-48h turnaround']
     },
     {
       id: 'ir',
-      title: 'Ironing',
-      tagline: 'Crisp & wrinkle-free finish',
+      title: 'Boiler Steam Ironing',
+      tagline: 'Crisp & wrinkle-free finish with zero shine',
       price: 'From ₹25/item',
       icon: '⚡',
       badge: 'Express',
-      features: ['Commercial steam press', 'Crisp crease lines', 'Hanger or flat fold', 'Safe temperature', 'Zero shine marks']
+      features: ['Commercial steam press', 'Crisp crease lines', 'Hanger or flat fold', 'Safe fabric temperature', 'Zero shine marks']
     },
     {
       id: 'sc',
-      title: 'Shoe Care',
-      tagline: 'Revive & refresh your footwear',
+      title: 'Shoe & Sneaker Care',
+      tagline: 'Revive & refresh your sneakers & formals',
       price: 'From ₹149/pair',
       icon: '👟',
       badge: 'Restoration',
-      features: ['Deep sole scrub', 'Upper fabric gentle wash', 'Deodorization', 'Lace cleaning', 'All sneaker brands']
+      features: ['Deep sole scrub', 'Upper fabric gentle wash', 'Deodorization treatment', 'Lace cleaning & wash', 'Leather conditioning']
     }
   ];
 
@@ -100,6 +118,7 @@ export default function MarketingPage() {
         {/* Smooth Scroll Navigation Links */}
         <div style={{ display: 'flex', gap: '32px', fontSize: '14px', fontWeight: '600', color: '#334155' }}>
           <button onClick={() => scrollTo('services')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'inherit', fontSize: 'inherit' }}>Services & Pricing</button>
+          <button onClick={() => scrollTo('three-bags')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'inherit', fontSize: 'inherit' }}>3-Bag System & Live GPS</button>
           <button onClick={() => scrollTo('how-it-works')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'inherit', fontSize: 'inherit' }}>How It Works</button>
           <button onClick={() => scrollTo('bag-tag')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'inherit', fontSize: 'inherit' }}>QR Bag Tag</button>
           <button onClick={() => scrollTo('coverage')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'inherit', fontSize: 'inherit' }}>City Coverage</button>
@@ -161,7 +180,7 @@ export default function MarketingPage() {
           <p style={{ color: '#64748b', fontSize: '15px' }}>Simple per-kg and per-item pricing in Indian Rupees. Zero hidden fees.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
           {services.map((srv) => (
             <div key={srv.id} style={{ background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', padding: '24px', display: 'flex', flexDirection: 'column', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -170,10 +189,10 @@ export default function MarketingPage() {
                   {srv.badge}
                 </span>
               </div>
-              <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#0f172a', marginBottom: '4px' }}>{srv.title}</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', marginBottom: '4px' }}>{srv.title}</h3>
               <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '16px', minHeight: '34px' }}>{srv.tagline}</p>
               
-              <div style={{ fontSize: '26px', fontWeight: '900', color: '#0d3826', marginBottom: '20px' }}>
+              <div style={{ fontSize: '24px', fontWeight: '900', color: '#0d3826', marginBottom: '16px' }}>
                 {srv.price}
               </div>
 
@@ -204,6 +223,125 @@ export default function MarketingPage() {
               </a>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Rinse 3-Bag System & Blinkit Live Valet Tracking Deep Dive */}
+      <section id="three-bags" style={{ background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '70px 24px', margin: '40px 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <span style={{ background: '#dcfce7', color: '#166534', padding: '4px 14px', borderRadius: '14px', fontSize: '12px', fontWeight: '800' }}>
+              RINSE.COM ARCHITECTURE ADAPTED FOR INDIA
+            </span>
+            <h2 style={{ fontSize: '36px', fontWeight: '900', color: '#0d3826', marginTop: '12px', marginBottom: '12px' }}>
+              The 3-Color Bag System & Blinkit Live Valet Tracking
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '16px', maxWidth: '680px', margin: '0 auto' }}>
+              Never worry about separating colors or ruining delicate fabrics again. Our valets hand you dedicated bags, and you track your valet on a live map just like Blinkit!
+            </p>
+          </div>
+
+          {/* 3 Bags Row */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '48px' }}>
+            {/* Black Bag */}
+            <div style={{ background: '#f8fafc', border: '2px solid #0f172a', borderRadius: '16px', padding: '28px', position: 'relative' }}>
+              <div style={{ width: '48px', height: '48px', background: '#0f172a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '16px' }}>
+                ⬛
+              </div>
+              <span style={{ position: 'absolute', top: '24px', right: '24px', background: '#0f172a', color: '#fff', padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: '800' }}>
+                EVERYDAY
+              </span>
+              <h3 style={{ fontSize: '20px', fontWeight: '900', color: '#0f172a', marginBottom: '6px' }}>Black Bag &bull; Wash & Fold</h3>
+              <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.6, marginBottom: '16px' }}>
+                Tees, shorts, jeans, underwear, bedsheets. We automatically sort whites from darks, wash in hypoallergenic detergent, tumble dry on medium, and fold crisp.
+              </p>
+              <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#0d3826' }}>
+                🧺 ₹49/kg or Flat ₹349 "Fill the Bag"
+              </div>
+            </div>
+
+            {/* White Bag */}
+            <div style={{ background: '#f8fafc', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', position: 'relative' }}>
+              <div style={{ width: '48px', height: '48px', background: '#ffffff', border: '1.5px solid #cbd5e1', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '16px' }}>
+                ⬜
+              </div>
+              <span style={{ position: 'absolute', top: '24px', right: '24px', background: '#e2e8f0', color: '#0f172a', padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: '800' }}>
+                ON HANGERS
+              </span>
+              <h3 style={{ fontSize: '20px', fontWeight: '900', color: '#0f172a', marginBottom: '6px' }}>White Bag &bull; Dry Clean & Press</h3>
+              <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.6, marginBottom: '16px' }}>
+                Suits, festive kurtas, blazers, silk sarees, and dresses. Hand-inspected for spots, solvent treated, professionally pressed, and returned on hangers with breathable dust covers.
+              </p>
+              <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#0d3826' }}>
+                🧥 From ₹99/item &bull; Zero Shine Guaranteed
+              </div>
+            </div>
+
+            {/* Teal Bag */}
+            <div style={{ background: '#f0fdfa', border: '2px solid #0d9488', borderRadius: '16px', padding: '28px', position: 'relative' }}>
+              <div style={{ width: '48px', height: '48px', background: '#0d9488', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '16px' }}>
+                🟦
+              </div>
+              <span style={{ position: 'absolute', top: '24px', right: '24px', background: '#0d9488', color: '#fff', padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: '800' }}>
+                ZERO HEAT
+              </span>
+              <h3 style={{ fontSize: '20px', fontWeight: '900', color: '#0f766e', marginBottom: '6px' }}>Teal Bag &bull; Delicate Hang Dry</h3>
+              <p style={{ fontSize: '13px', color: '#115e59', lineHeight: 1.6, marginBottom: '16px' }}>
+                Lululemon, gym activewear, swimwear, silks, cashmere, and fine woolens. Cold water washed, zero tumble heat, and hung to ambient air-dry to prevent shrinkage and fabric breakdown.
+              </p>
+              <div style={{ background: '#fff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #99f6e4', fontSize: '12px', fontWeight: '700', color: '#0f766e' }}>
+                🌬️ Ambient Air Dried &bull; 100% Elastic Protection
+              </div>
+            </div>
+          </div>
+
+          {/* Blinkit Live Map & FreshDrop Feature Showcase */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '32px', alignItems: 'stretch' }}>
+            {/* Blinkit Map Highlight */}
+            <div style={{ background: '#0d3826', borderRadius: '20px', padding: '36px', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', padding: '6px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '800', marginBottom: '16px' }}>
+                  <span>🛵 BLINKIT-STYLE LIVE VALET TRACKING</span>
+                </div>
+                <h3 style={{ fontSize: '28px', fontWeight: '900', lineHeight: 1.25, marginBottom: '12px' }}>
+                  Real-time GPS Tracking with Live Electric Scooter Movement
+                </h3>
+                <p style={{ fontSize: '14px', color: '#a7f3d0', lineHeight: 1.6, marginBottom: '24px' }}>
+                  Watch your FreshRoute valet glide through the city street grid in real time. Dynamic ETA pill ("Arriving in 8 mins"), live speed telemetry (26 km/h), vehicle number, and one-tap WhatsApp / direct call to your valet.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                <a
+                  href="http://localhost:3000/track"
+                  style={{ background: '#16a34a', color: '#fff', padding: '12px 24px', borderRadius: '10px', textDecoration: 'none', fontWeight: '800', fontSize: '14px' }}
+                >
+                  Experience Live Map Simulation →
+                </a>
+                <span style={{ fontSize: '12px', color: '#86efac' }}>★ 4.9 Valet Rating</span>
+              </div>
+            </div>
+
+            {/* FreshDrop Unattended Concierge */}
+            <div style={{ background: '#fdfbf7', border: '2px dashed #d1c7b7', borderRadius: '20px', padding: '36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#ffedd5', color: '#c2410c', padding: '6px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '800', marginBottom: '16px' }}>
+                  <span>🛎️ FRESHDROP™ CONCIERGE</span>
+                </div>
+                <h3 style={{ fontSize: '24px', fontWeight: '900', color: '#0d3826', marginBottom: '12px' }}>
+                  Unattended Handover for Indian Societies
+                </h3>
+                <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.6 }}>
+                  Busy at work? Enable FreshDrop™. Hand over bags or receive deliveries via your <b>Society Security Guard</b>, <b>Clubhouse Concierge</b>, or <b>Doorstep Safety Hook</b>. Valet scans the QR code and sends photo proof on WhatsApp.
+                </p>
+              </div>
+
+              <div style={{ background: '#fff', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', marginTop: '20px' }}>
+                <div style={{ fontSize: '12px', fontWeight: '800', color: '#0d3826' }}>✓ 100% Tamper-Proof QR Seals</div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Timestamped photo sent to WhatsApp instantly</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

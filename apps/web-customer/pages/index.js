@@ -18,42 +18,68 @@ export default function CustomerHome() {
   const catalog = [
     {
       id: 'wf',
-      title: 'Wash & Fold',
-      tagline: 'Everyday clothes, professionally cleaned',
+      title: 'Wash & Fold (Black Bag)',
+      tagline: 'Everyday clothes, auto-sorted lights & darks, folded crisp',
       pricePaise: 4900,
       priceFormatted: '₹49/kg',
       unit: 'kg',
-      icon: '🧺',
-      features: ['Premium detergent', 'Hygienic cleaning', 'Fresh fragrance', 'Folded & packed', '48-72 hours delivery']
+      icon: '⬛',
+      badge: 'Rinse Black Bag',
+      features: ['Hypoallergenic wash', 'Lights & darks separated', 'Tumble dry low', 'Folded & packaged in eco-pack', '48h standard turnaround']
     },
     {
       id: 'dc',
-      title: 'Dry Cleaning',
-      tagline: 'Suits, blazers, sarees & heavy festive garments',
+      title: 'Dry Clean & Press (White Bag)',
+      tagline: 'Suits, blazers, sarees & dresses returned on custom hangers',
       pricePaise: 9900,
       priceFormatted: 'From ₹99/item',
       unit: 'item',
-      icon: '🧥',
-      features: ['Gentle solvent care', 'Stain spot removal', 'Protective garment cover', 'Hanger packing', 'Formals & festive wear']
+      icon: '⬜',
+      badge: 'Rinse White Bag',
+      features: ['Gentle solvent cleaning', 'Hand stain spot treatment', 'Delivered on premium hangers', 'Protective breathable garment covers', 'Formals & silks']
+    },
+    {
+      id: 'hd',
+      title: 'Delicate Hang Dry (Teal Bag)',
+      tagline: 'Gym activewear, lululemon, swimsuits & woolens dried with zero heat',
+      pricePaise: 7900,
+      priceFormatted: 'From ₹79/item',
+      unit: 'item',
+      icon: '🟦',
+      badge: 'Rinse Teal Bag',
+      features: ['Zero tumble heat', 'Ambient cold air drying', 'Prevents elastic damage & shrinkage', 'Sports apparel & swimwear', 'Fine wools & cashmere']
+    },
+    {
+      id: 'ftb',
+      title: 'Fill-The-Bag (Flat Rate)',
+      tagline: 'Rinse famous flat rate: Stuff it as full as it zips!',
+      pricePaise: 34900,
+      priceFormatted: 'Flat ₹349 / bag',
+      unit: 'bag',
+      icon: '🎒',
+      badge: 'Most Value',
+      features: ['Zero per-kg weighing hassle', 'Flex Bag (up to 5 kg) ₹349', 'Family Bag (up to 10 kg) ₹599', 'Complete wash, dry & fold', 'Next evening delivery']
     },
     {
       id: 'ir',
-      title: 'Ironing',
+      title: 'Boiler Steam Ironing',
       tagline: 'Commercial high-pressure boiler steam pressing',
       pricePaise: 2500,
       priceFormatted: 'From ₹25/item',
       unit: 'item',
       icon: '⚡',
+      badge: 'Express',
       features: ['Commercial steam press', 'Crisp crease lines', 'Hanger or flat fold', 'Safe fabric temperature', 'Zero burn guarantee']
     },
     {
       id: 'sc',
-      title: 'Shoe Care',
+      title: 'Shoe & Sneaker Care',
       tagline: 'Sneakers, running shoes & formal leather deep cleaned',
       pricePaise: 14900,
       priceFormatted: 'From ₹149/pair',
       unit: 'pair',
       icon: '👟',
+      badge: 'Deep Clean',
       features: ['Deep sole scrub', 'Upper fabric gentle wash', 'Deodorization treatment', 'Lace cleaning & wash', 'Leather conditioning']
     }
   ];
@@ -199,7 +225,32 @@ export default function CustomerHome() {
 
       {/* Main Content Area */}
       <main style={{ maxWidth: '600px', margin: '20px auto', padding: '0 16px' }}>
-        {/* 4 Category 2x2 Grid */}
+        {/* Rinse 3-Bag System Quick Explainer Card */}
+        <div style={{ background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', padding: '16px 18px', marginBottom: '18px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '800', color: '#0d3826' }}>🧺 Rinse-Style 3-Color Smart Bags</span>
+            <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '10px', fontWeight: '800' }}>VALET BRINGS BAGS</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', textAlign: 'center', fontSize: '11px' }}>
+            <div style={{ background: '#f8fafc', padding: '10px 6px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: '18px' }}>⬛</div>
+              <div style={{ fontWeight: '800', color: '#0f172a', marginTop: '2px' }}>Black Bag</div>
+              <div style={{ color: '#64748b', fontSize: '10px' }}>Wash & Fold</div>
+            </div>
+            <div style={{ background: '#f8fafc', padding: '10px 6px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: '18px' }}>⬜</div>
+              <div style={{ fontWeight: '800', color: '#0f172a', marginTop: '2px' }}>White Bag</div>
+              <div style={{ color: '#64748b', fontSize: '10px' }}>Dry Clean / Hanger</div>
+            </div>
+            <div style={{ background: '#f0fdfa', padding: '10px 6px', borderRadius: '10px', border: '1px solid #ccfbf1' }}>
+              <div style={{ fontSize: '18px' }}>🟦</div>
+              <div style={{ fontWeight: '800', color: '#0f766e', marginTop: '2px' }}>Teal Bag</div>
+              <div style={{ color: '#64748b', fontSize: '10px' }}>Delicate Hang Dry</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 6 Category 2-Column Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '20px' }}>
           {filteredCatalog.map((srv) => (
             <div
@@ -209,14 +260,20 @@ export default function CustomerHome() {
                 background: '#ffffff',
                 border: '1.5px solid #e2e8f0',
                 borderRadius: '16px',
-                padding: '20px',
+                padding: '18px 16px',
                 cursor: 'pointer',
                 textAlign: 'center',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                position: 'relative'
               }}
             >
-              <div style={{ fontSize: '40px', marginBottom: '8px' }}>{srv.icon}</div>
-              <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', marginBottom: '4px' }}>{srv.title}</h3>
+              {srv.badge && (
+                <span style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '9px', fontWeight: '800', background: '#f1f5f9', color: '#0d3826', padding: '2px 6px', borderRadius: '6px' }}>
+                  {srv.badge}
+                </span>
+              )}
+              <div style={{ fontSize: '36px', marginBottom: '8px' }}>{srv.icon}</div>
+              <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#0f172a', marginBottom: '4px', lineHeight: 1.3 }}>{srv.title}</h3>
               <div style={{ fontSize: '13px', fontWeight: '800', color: '#0d3826' }}>{srv.priceFormatted}</div>
               <div style={{ fontSize: '11px', color: '#16a34a', fontWeight: '700', marginTop: '6px' }}>Tap for Details &bull; +</div>
             </div>
