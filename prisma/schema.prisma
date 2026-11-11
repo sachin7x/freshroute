@@ -1,0 +1,441 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Cities
+model City {
+  id              String            @id @default(uuid())
+  name            String            @unique
+  state           String
+  code            String            @unique
+  description     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Address         Address[]
+  ServiceZone     ServiceZone[]
+  PricingRule     PricingRule[]
+  Order           Order[]
+  PickupSlot      PickupSlot[]
+  PartnerFacility PartnerFacility[]
+}
+
+// Users
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  permissions String[]
+  createdAt   DateTime @default(now())
+  users       User[]
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  phone         String         @unique
+  passwordHash  String
+  role          Role           @relation(fields: [roleId], references: [id])
+  roleId        String
+  status        String         @default("ACTIVE")
+  emailVerified DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  lastLoginAt   DateTime?
+  Customer      Customer?
+  Valet         Valet?
+  Notification  Notification[]
+
+  @@index([roleId])
+  @@index([status])
+}
+
+// Customer profile
+model Customer {
+  id                   String                @id @default(uuid())
+  userId               String                @unique
+  user                 User                  @relation(fields: [userId], references: [id])
+  fullName             String
+  businessName         String?
+  gstin                String?
+  avatarUrl            String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  Address              Address[]
+  Order                Order[]
+  CustomerSubscription CustomerSubscription?
+
+  @@index([userId])
+}
+
+// Address
+model Address {
+  id              String            @id @default(uuid())
+  customerId      String
+  customer        Customer          @relation(fields: [customerId], references: [id])
+  line1           String
+  line2           String?
+  landmark        String?
+  cityId          String
+  city            City              @relation(fields: [cityId], references: [id])
+  zoneId          String?
+  zone            ServiceZone?      @relation(fields: [zoneId], references: [id])
+  postalCode      String
+  isDefault       Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Order           Order[]
+  Partner         Partner[]
+  PartnerFacility PartnerFacility[]
+
+  @@index([customerId])
+  @@index([cityId])
+  @@index([isDefault])
+}
+
+// Service zones
+model ServiceZone {
+  id         String       @id @default(uuid())
+  cityId     String
+  city       City         @relation(fields: [cityId], references: [id])
+  name       String
+  code       String       @unique
+  capacity   Int          @default(100)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Address    Address[]
+  Order      Order[]
+  PickupSlot PickupSlot[]
+
+  @@index([cityId])
+}
+
+// Laundry services
+model LaundryService {
+  id          String        @id @default(uuid())
+  name        String
+  code        String        @unique
+  description String?
+  unitType    String
+  unitBase    Int           @default(1)
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  PricingRule PricingRule[]
+  Order       Order[]
+
+  @@index([code])
+}
+
+// Pricing rules
+model PricingRule {
+  id             String         @id @default(uuid())
+  cityId         String?
+  city           City?          @relation(fields: [cityId], references: [id])
+  serviceId      String
+  laundryService LaundryService @relation(fields: [serviceId], references: [id])
+  pricePerUnit   Int
+  minQuantity    Int            @default(1)
+  cityAdjustment Int            @default(0)
+  effectiveFrom  DateTime
+  effectiveTo    DateTime?
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([serviceId])
+  @@index([cityId])
+  @@index([effectiveFrom])
+}
+
+// Order status
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  PICKUP_ASSIGNED
+  PICKED_UP
+  RECEIVED_AT_HUB
+  PROCESSING
+  QUALITY_CHECK
+  READY_FOR_DELIVERY
+  DELIVERY_ASSIGNED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+  SUSPENDED
+}
+
+// Orders
+model Order {
+  id                  String          @id @default(uuid())
+  orderNumber         String          @default(uuid())
+  customerId          String
+  customer            Customer        @relation(fields: [customerId], references: [id])
+  cityId              String
+  city                City            @relation(fields: [cityId], references: [id])
+  zoneId              String?
+  zone                ServiceZone?    @relation(fields: [zoneId], references: [id])
+  pickupSlotId        String?
+  pickupSlot          PickupSlot?     @relation(fields: [pickupSlotId], references: [id])
+  billingAddressId    String?
+  billingAddress      Address?        @relation(fields: [billingAddressId], references: [id])
+  serviceId           String
+  service             LaundryService  @relation(fields: [serviceId], references: [id])
+  quantity            Int             @default(1)
+  weightKg            Decimal?
+  pricePerUnit        Int
+  totalAmount         Int
+  discountAmount      Int             @default(0)
+  taxAmount           Int             @default(0)
+  finalAmount         Int
+  status              OrderStatus     @default(PENDING_PAYMENT)
+  statusHistory       StatusHistory[]
+  bookedAt            DateTime?
+  confirmedAt         DateTime?
+  pickedUpAt          DateTime?
+  receivedAtHubAt     DateTime?
+  processingStartedAt DateTime?
+  qualityCheckedAt    DateTime?
+  readyForDeliveryAt  DateTime?
+  deliveredAt         DateTime?
+  cancelledAt         DateTime?
+  refundedAt          DateTime?
+  notes               String?
+  specialInstructions String?
+  payment             Payment?
+  valetId             String?
+  valet               Valet?          @relation(fields: [valetId], references: [id])
+  partnerId           String?
+  partner             Partner?        @relation(fields: [partnerId], references: [id])
+  LaundryBag          LaundryBag?
+  Refund              Refund?
+
+  @@index([customerId])
+  @@index([status])
+  @@index([cityId])
+  @@index([serviceId])
+}
+
+model StatusHistory {
+  id         String       @id @default(uuid())
+  orderId    String
+  order      Order        @relation(fields: [orderId], references: [id])
+  fromStatus OrderStatus?
+  toStatus   OrderStatus
+  changedBy  String?
+  changedAt  DateTime     @default(now())
+  notes      String?
+
+  @@index([orderId])
+  @@index([changedAt])
+}
+
+// Pickup slots
+model PickupSlot {
+  id            String       @id @default(uuid())
+  cityId        String
+  city          City         @relation(fields: [cityId], references: [id])
+  zoneId        String?
+  zone          ServiceZone? @relation(fields: [zoneId], references: [id])
+  startTime     DateTime
+  endTime       DateTime
+  capacity      Int          @default(20)
+  bookedCount   Int          @default(0)
+  isRecurring   Boolean      @default(false)
+  daysOfWeek    Json
+  serviceCharge Int          @default(0)
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  orders        Order[]
+
+  @@index([cityId])
+  @@index([isActive])
+  @@index([startTime])
+}
+
+// Laundry bags / QR tracking
+model LaundryBag {
+  id                String    @id @default(uuid())
+  orderId           String    @unique
+  order             Order     @relation(fields: [orderId], references: [id])
+  bagIdentifier     String
+  internalId        String
+  scannedAtPickup   DateTime?
+  scannedAtFacility DateTime?
+  scannedAtDelivery DateTime?
+  createdAt         DateTime  @default(now())
+
+  @@index([orderId])
+}
+
+// Payments
+model Payment {
+  id                String   @id @default(uuid())
+  orderId           String   @unique
+  order             Order    @relation(fields: [orderId], references: [id])
+  provider          String
+  providerOrderId   String
+  providerPaymentId String?
+  providerSignature String?
+  amount            Int
+  currency          String
+  status            String
+  method            String
+  receiptId         String?
+  attemptCount      Int      @default(0)
+  failedReason      String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  Refund            Refund?
+
+  @@index([orderId])
+}
+
+// Refunds
+model Refund {
+  id               String    @id @default(uuid())
+  paymentId        String    @unique
+  payment          Payment   @relation(fields: [paymentId], references: [id])
+  orderId          String    @unique
+  order            Order     @relation(fields: [orderId], references: [id])
+  amount           Int
+  reason           String?
+  status           String    @default("PENDING")
+  providerRefundId String?
+  initiatedBy      String
+  initiatedAt      DateTime  @default(now())
+  completedAt      DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([paymentId])
+  @@index([status])
+}
+
+// Partners
+model Partner {
+  id              String            @id @default(uuid())
+  name            String
+  code            String            @unique
+  email           String            @unique
+  phone           String
+  addressId       String?
+  address         Address?          @relation(fields: [addressId], references: [id])
+  status          String            @default("ACTIVE")
+  rating          Decimal?
+  totalOrders     Int               @default(0)
+  completedOrders Int               @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Order           Order[]
+  PartnerFacility PartnerFacility[]
+
+  @@index([code])
+}
+
+// Partner facilities
+model PartnerFacility {
+  id           String   @id @default(uuid())
+  partnerId    String
+  partner      Partner  @relation(fields: [partnerId], references: [id])
+  name         String
+  addressId    String?
+  address      Address? @relation(fields: [addressId], references: [id])
+  cityId       String
+  city         City     @relation(fields: [cityId], references: [id])
+  capacity     Int      @default(100)
+  activeOrders Int      @default(0)
+  workingHours String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([partnerId])
+  @@index([cityId])
+}
+
+// Valets
+model Valet {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id])
+  name             String
+  phone            String
+  email            String
+  status           String   @default("AVAILABLE")
+  currentOrder     String?
+  currentOrderId   String?
+  assignedCity     String?
+  assignedCityId   String?
+  rating           Decimal?
+  totalPickups     Int      @default(0)
+  completedPickups Int      @default(0)
+  totalDeliveries  Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  Order            Order[]
+
+  @@index([userId])
+}
+
+// Subscriptions
+model CustomerSubscription {
+  id             String   @id @default(uuid())
+  customerId     String   @unique
+  customer       Customer @relation(fields: [customerId], references: [id])
+  planType       String
+  status         String   @default("ACTIVE")
+  pricePaid      Int
+  periodStart    DateTime
+  periodEnd      DateTime
+  ordersIncluded Int      @default(4)
+  ordersUsed     Int      @default(0)
+  autoRenew      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([status])
+}
+
+// Audit log
+model AuditLog {
+  id            String   @id @default(uuid())
+  entity        String
+  entityId      String
+  action        String
+  performedBy   String
+  performedById String?
+  changes       Json
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime @default(now())
+
+  @@index([entityId])
+  @@index([createdAt])
+}
+
+// Notifications
+model Notification {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User?     @relation(fields: [userId], references: [id])
+  type        String
+  title       String
+  body        String
+  data        Json?
+  status      String    @default("PENDING")
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  providerRef String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
