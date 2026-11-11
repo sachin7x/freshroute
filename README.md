@@ -2,6 +2,12 @@
 
 > **Rinse.com re-imagined for India.** Scheduled evening valet pickups (7 PM – 10 PM), tamper-proof QR-tagged laundry bags, dark hub processing, and guaranteed 24–48 hour doorstep delivery across Rajasthan (Bhilwara, Kishangarh, Jaipur) and pan-India.
 
+[![GitHub Release](https://img.shields.io/github/v/release/sachin7x/freshroute?color=16A34A&label=Release)](https://github.com/sachin7x/freshroute/releases/tag/v1.0.0)
+[![UI Gallery](https://img.shields.io/badge/UI%20Screenshots-Download%20ZIP-0D3826)](https://github.com/sachin7x/freshroute/releases/tag/v1.0.0)
+[![RLVR Gate](https://img.shields.io/badge/RLVR%20Verification-R%3D%2B1.000%20(Exit%200)-16A34A)](./verify-full-system.sh)
+
+> 📦 **UI Screenshot Gallery:** Download the complete high-resolution UI and workflow screenshots ZIP directly from the [v1.0.0 GitHub Release](https://github.com/sachin7x/freshroute/releases/tag/v1.0.0).
+
 ---
 
 ## 📑 Table of Contents
